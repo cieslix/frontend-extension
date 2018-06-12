@@ -1,0 +1,39 @@
+<?php
+
+namespace Creativestyle\FrontendExtension\Test\Integration\Template;
+
+class LocatorTest extends \PHPUnit\Framework\TestCase
+{
+    /**
+     * @var \Magento\TestFramework\ObjectManager
+     */
+    private $objectManager;
+
+    /**
+     * @var \Creativestyle\FrontendExtension\Template\Locator
+     */
+    private $locator;
+
+    public function setUp()
+    {
+        $this->objectManager = \Magento\TestFramework\ObjectManager::getInstance();
+        $this->locator = $this->objectManager->get(\Creativestyle\FrontendExtension\Template\Locator::class);
+    }
+
+    /**
+     * @magentoAppArea frontend
+     * @dataProvider getPaths
+     */
+    public function testItReturnsCorrectTemplatePath($locatorPath, $expectedPath)
+    {
+        $this->assertContains($expectedPath, $this->locator->locate($locatorPath));
+    }
+
+    public static function getPaths()
+    {
+        return [
+            ['Magento_Theme::template.phtml', 'view/frontend/templates/template.phtml']
+        ];
+    }
+
+}
